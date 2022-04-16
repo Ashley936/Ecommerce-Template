@@ -1,3 +1,6 @@
+import React from 'react';
+import { Link as ReactLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Flex,
@@ -15,6 +18,10 @@ import {
   useColorMode,
   useBreakpointValue,
   useDisclosure,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
@@ -24,11 +31,20 @@ import {
   MoonIcon,
   SunIcon,
 } from '@chakra-ui/icons';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { logout } from '../../Actions/userAction';
 
 export default function WithSubnavigation() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
-
+  const dispatch = useDispatch();
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+  const linkColor = useColorModeValue('gray.600', 'gray.200');
+  const linkHoverColor = useColorModeValue('gray.800', 'white');
+  const logoutHandeler = () => {
+    dispatch(logout());
+  };
   return (
     <Box>
       <Flex
@@ -57,14 +73,15 @@ export default function WithSubnavigation() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}
-          >
-            Logo
-          </Text>
-
+          <ReactLink to="/">
+            <Text
+              textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+              fontFamily={'heading'}
+              color={useColorModeValue('gray.800', 'white')}
+            >
+              Logo
+            </Text>
+          </ReactLink>
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
           </Flex>
@@ -73,31 +90,67 @@ export default function WithSubnavigation() {
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
+          align={'center'}
           direction={'row'}
           spacing={6}
         >
           <Button
             as={'a'}
-            fontSize={'sm'}
+            fontSize={'md'}
             fontWeight={400}
             variant={'link'}
-            href={'#'}
+            href={'/cart'}
           >
+            <Icon
+              as={AiOutlineShoppingCart}
+              h={5}
+              w={5}
+              alignSelf={'center'}
+              m="0 5px"
+            />
             Cart
           </Button>
-          <Button
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'sm'}
-            fontWeight={600}
-            color={'white'}
-            bg={'pink.400'}
-            href={'#'}
-            _hover={{
-              bg: 'pink.300',
-            }}
-          >
-            Sign In
-          </Button>
+          {userInfo ? (
+            <Box key="user_dropdown">
+              <Menu isLazy m="auto">
+                <MenuButton
+                  _hover={{
+                    color: linkHoverColor,
+                    borderColor: linkHoverColor,
+                  }}
+                  color={linkColor}
+                  fontWeight={600}
+                  p={'5px 15px'}
+                  borderRadius={'8px'}
+                  border={`2px solid gray`}
+                >
+                  {userInfo.name}
+                </MenuButton>
+                <MenuList>
+                  <ReactLink to="/profile">
+                    <MenuItem>Profile</MenuItem>
+                  </ReactLink>
+                  <MenuItem onClick={logoutHandeler}>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
+          ) : (
+            <ReactLink to="/signup">
+              <Button
+                display={'inline-flex'}
+                fontSize={'sm'}
+                fontWeight={600}
+                color={'white'}
+                bg={'pink.400'}
+                _hover={{
+                  bg: 'pink.300',
+                }}
+              >
+                Sign In
+              </Button>
+            </ReactLink>
+          )}
+
           <Button onClick={toggleColorMode}>
             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>

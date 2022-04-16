@@ -30,7 +30,7 @@ const Home = () => {
   return (
     <Container maxW={'9xl'}>
       {loading ? (
-        <Stack  maxW="8xl" mx='auto'>
+        <Stack maxW="8xl" mx="auto">
           <ProductLoader />
           <ProductLoader />
           <ProductLoader />
@@ -42,11 +42,19 @@ const Home = () => {
           <AlertDescription>Please Try refreshing the Browser</AlertDescription>
         </Alert>
       ) : (
-        <Wrap align={'center'} justify="center" maxW={'9xl'}>
+        <Wrap
+          align={'center'}
+          justify="center"
+          maxW={'9xl'}
+          spacing="30px"
+          m="30px 0"
+        >
           {products?.map((item, key) => (
-            <Link key={key} to={`/product/${item._id}`}>
-              <ProductCard item={item} />
-            </Link>
+            <Box m="30px">
+              <Link key={key} to={`/product/${item._id}`}>
+                <ProductCard item={item} />
+              </Link>
+            </Box>
           ))}
         </Wrap>
       )}

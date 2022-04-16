@@ -41,7 +41,7 @@ function Rating({ rating, numReviews }) {
 }
 const ProductCard = ({ item }) => {
   return (
-    <Flex p={50} w="fit-content" alignItems="center" justifyContent="center">
+    <Flex w="fit-content" alignItems="center" justifyContent="center">
       <Box
         bg={'white'}
         maxW="sm"
@@ -91,9 +91,9 @@ const ProductCard = ({ item }) => {
               color={'gray.800'}
               fontSize={'1.2em'}
             >
-              <chakra.a href={'#'} display={'flex'}>
+              <Box display={'flex'}>
                 <Icon as={FiShoppingCart} h={7} w={7} alignSelf={'center'} />
-              </chakra.a>
+              </Box>
             </Tooltip>
           </Flex>
 
