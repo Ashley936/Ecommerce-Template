@@ -8,7 +8,7 @@ const generateToken = ({ name, email, _id }) => {
     },
     process.env.JWT_ACCOUNT_ACTIVATION,
     {
-      expiresIn: "50m",
+      expiresIn: "30d",
     }
   );
 };

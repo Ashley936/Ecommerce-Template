@@ -37,7 +37,7 @@ export const Details = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
-  const onSubmit = data => {
+  const onSubmit = async data => {
     let newPassword =
       data.password === data['confirm-password'] ? data.password : null;
     let updatedUser = {
@@ -45,7 +45,7 @@ export const Details = () => {
       email: data.email,
       password: newPassword,
     };
-    if (!newPassword) {
+    if (!newPassword && data.password) {
       toast({
         title: 'Update Failed',
         description: 'Confirm new password',
@@ -53,13 +53,13 @@ export const Details = () => {
         duration: 2000,
       });
     } else {
-      dispatch(updateUserProfile(updatedUser));
+      await dispatch(updateUserProfile(updatedUser));
     }
   };
 
   useEffect(() => {
     if (!userInfo) {
-      navigate('/signup');
+      navigate('/login');
     } else if ((!user || !user.name) && !detailsError) {
       dispatch(getUserDetails('profile'));
     } else if (detailsError === 'Token expired') {

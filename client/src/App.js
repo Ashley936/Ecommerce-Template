@@ -11,6 +11,9 @@ import { Login } from './Screens/LogIn';
 import UserProfile from './Screens/UserProfile';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserDetails, logout } from './Actions/userAction';
+import { Shipping } from './Screens/Shipping';
+import { Payment } from './Screens/Payment';
+import { PlaceOrder } from './Screens/PlaceOrder';
 function App() {
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
@@ -39,6 +42,9 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart/:id" element={<Cart />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/placeorder" element={<PlaceOrder />} />
           <Route path="*" element={<Heading>Page Not found</Heading>} />
         </Routes>
         <Footer />
