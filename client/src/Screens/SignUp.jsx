@@ -123,7 +123,6 @@ const Signup = () => {
                 placeholder="Full Name"
                 {...register('name', {
                   required: 'Please enter Name',
-                  minLength: { value: 4, message: 'Too Short' },
                 })}
               />
             </FormControl>
@@ -182,10 +181,6 @@ const Signup = () => {
                         value: 4,
                         message: 'Minimum 4 Characters in password',
                       },
-                      /* pattern: {
-                        value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
-                        message: 'Use a strong password',
-                      }, */
                     })}
                   />
                 </InputGroup>

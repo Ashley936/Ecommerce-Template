@@ -42,7 +42,6 @@ const Login = () => {
 
   useEffect(() => {
     if (userInfo) {
-      console.log(redirect);
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);

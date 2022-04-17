@@ -50,8 +50,8 @@ const Home = () => {
           m="30px 0"
         >
           {products?.map((item, key) => (
-            <Box m="30px">
-              <Link key={key} to={`/product/${item._id}`}>
+            <Box m="30px" key={key}>
+              <Link to={`/product/${item._id}`}>
                 <ProductCard item={item} />
               </Link>
             </Box>

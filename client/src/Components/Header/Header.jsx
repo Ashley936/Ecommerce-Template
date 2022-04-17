@@ -38,8 +38,8 @@ export default function WithSubnavigation() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
   const dispatch = useDispatch();
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo } = userLogin;
+  const userDetails = useSelector(state => state.userDetails);
+  const { user } = userDetails;
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
   const logoutHandeler = () => {
@@ -110,7 +110,7 @@ export default function WithSubnavigation() {
             />
             Cart
           </Button>
-          {userInfo ? (
+          {user && user.name ? (
             <Box key="user_dropdown">
               <Menu isLazy m="auto">
                 <MenuButton
@@ -124,7 +124,7 @@ export default function WithSubnavigation() {
                   borderRadius={'8px'}
                   border={`2px solid gray`}
                 >
-                  {userInfo.name}
+                  {user.name}
                 </MenuButton>
                 <MenuList>
                   <ReactLink to="/profile">
