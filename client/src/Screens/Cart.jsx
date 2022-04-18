@@ -14,6 +14,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../Actions/cartAction';
+import { CartItem } from '../Components/CartItem/CartItem';
 
 const Cart = () => {
   const { id } = useParams();
@@ -40,37 +41,14 @@ const Cart = () => {
   };
 
   return (
-    <Container maxW="8xl" border="2px solid red">
+    <Container maxW="8xl" p={[3, 3, 9, 9]}>
       <Heading mx="auto">Shoping Cart</Heading>
       {cartItems.length === 0 ? (
         <Text>Your card is empty</Text>
       ) : (
-        cartItems.map((item, key) => (
-          <HStack py="1rem" maxW="25rem" justify={'space-between'}>
-            <HStack>
-              <Text>{item.name}</Text>
-            </HStack>
-            <FormControl w="6rem" as="span" value={qty}>
-              <Select
-                placeholder={item.qty}
-                onChange={e =>
-                  dispatch(addToCart(item.product, Number(e.target.value)))
-                }
-              >
-                {[...Array(item.countInStock).keys()].map(index => (
-                  <option key={index} value={index + 2}>
-                    {index + 2}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-            <Button onClick={() => removeFromCartHandler(item.product)}>
-              Remove
-            </Button>
-          </HStack>
-        ))
+        cartItems.map((item, key) => <CartItem key={item.id} item={item} />)
       )}
-      <HStack w="20rem" justify={'space-between'}>
+      <HStack w="20rem" justify={'space-between'} my={7}>
         <Text>
           Total <Tag>{cartItems.reduce((acc, item) => acc + item.qty, 0)}</Tag>
         </Text>

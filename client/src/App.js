@@ -14,6 +14,7 @@ import { getUserDetails, logout } from './Actions/userAction';
 import { Shipping } from './Screens/Shipping';
 import { Payment } from './Screens/Payment';
 import { PlaceOrder } from './Screens/PlaceOrder';
+import { OrderPay } from './Screens/OrderPay';
 function App() {
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
@@ -41,10 +42,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/cart/:id" element={<Cart />} />
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/placeorder" element={<PlaceOrder />} />
+          <Route path="/order/:id" element={<OrderPay />} />
           <Route path="*" element={<Heading>Page Not found</Heading>} />
         </Routes>
         <Footer />

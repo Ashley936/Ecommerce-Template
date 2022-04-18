@@ -94,22 +94,18 @@ export default function WithSubnavigation() {
           direction={'row'}
           spacing={6}
         >
-          <Button
-            as={'a'}
-            fontSize={'md'}
-            fontWeight={400}
-            variant={'link'}
-            href={'/cart'}
-          >
-            <Icon
-              as={AiOutlineShoppingCart}
-              h={5}
-              w={5}
-              alignSelf={'center'}
-              m="0 5px"
-            />
-            Cart
-          </Button>
+          <ReactLink to="/cart">
+            <Button fontSize={'md'} fontWeight={400} variant={'link'}>
+              <Icon
+                as={AiOutlineShoppingCart}
+                h={5}
+                w={5}
+                alignSelf={'center'}
+                m="0 5px"
+              />
+              Cart
+            </Button>
+          </ReactLink>
           {user && user.name ? (
             <Box key="user_dropdown">
               <Menu isLazy m="auto">
