@@ -24,7 +24,7 @@ const Home = () => {
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(listProducts());
+    if (productList.products.length === 0) dispatch(listProducts());
   }, [dispatch]);
 
   return (

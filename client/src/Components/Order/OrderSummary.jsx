@@ -35,7 +35,7 @@ export const OrderSummary = ({
       <Heading size="md">ORDER SUMMARY</Heading>
 
       <Stack spacing="6">
-        <OrderSummaryItem label="Items" value={itemsPrice} />
+        <OrderSummaryItem label="Total Price" value={itemsPrice} />
         <OrderSummaryItem
           label="Shipping"
           value={shippingPrice}

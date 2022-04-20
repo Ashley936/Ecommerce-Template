@@ -1,71 +1,100 @@
 import {
   Heading,
   VStack,
-  HStack,
-  Text,
-  Divider,
-  Stack,
+  TableContainer,
   useColorModeValue,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Td,
+  Tbody,
+  Tfoot,
+  Button,
+  Spinner,
+  AlertIcon,
+  Alert,
+  Box,
+  Flex,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { listMyOrders } from '../../Actions/orderAction';
 
 export const OrderHistory = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error, orders } = useSelector(state => state.orderMyList);
+
   const bgColor = useColorModeValue('gray.50', 'whiteAlpha.50');
-  const secondaryTextColor = useColorModeValue('gray.600', 'gray.400');
+
+  useEffect(() => {
+    if (!orders) {
+      dispatch(listMyOrders());
+    }
+  }, [orders, dispatch]);
   return (
-    <VStack
-      w="full"
-      h="full"
-      p={10}
-      spacing={10}
-      alignItems="flex-start"
-      bg={bgColor}
-    >
-      <VStack alignItems="flex-start" spacing={3}>
-        <Heading size="2xl">Your cart</Heading>
+    <VStack w="full" h="full" p={5} alignItems="flex-start" bg={bgColor}>
+      <VStack alignItems="flex-start" spacing={5}>
+        <Heading size="2xl">ORDER HISTORY</Heading>
+        <TableContainer>
+          <Table colorScheme="blue" size={'sm'} maxW={'300px'}>
+            <Thead fontSize={['12px', '14px', '16px', '18px']}>
+              <Tr>
+                <Th>ID</Th>
+                <Th>DATE</Th>
+                <Th>TOTAL</Th>
+                <Th>PAID</Th>
+                <Th>DELIVERED</Th>
+                <Th></Th>
+              </Tr>
+            </Thead>
+            <Tbody fontSize={['10px', '12px']} py={2}>
+              {orders ? (
+                orders.map((order, index) => (
+                  <Tr key={index}>
+                    <Td>{order._id}</Td>
+                    <Td>{order.createdAt.split('T')[0]}</Td>
+                    <Td>{order.totalPrice}</Td>
+                    <Td>
+                      {order.paidAt ? order.paidAt.split('T')[0] : 'NOT PAID'}
+                    </Td>
+                    <Td>{order.deliveredAt || 'NOT DELIVERED'}</Td>
+                    <Td>
+                      <Link to={`/order/${order._id}`}>
+                        <Button>Details</Button>
+                      </Link>
+                    </Td>
+                  </Tr>
+                ))
+              ) : (
+                <Tr>
+                  <Td>Loading...</Td>
+                </Tr>
+              )}
+            </Tbody>
+          </Table>
+        </TableContainer>
+        {!orders && error ? (
+          <Alert status="error">
+            <AlertIcon />
+            {error.message}
+          </Alert>
+        ) : !orders ? (
+          <Flex w={'full'} justify={'center'}>
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+          </Flex>
+        ) : (
+          ''
+        )}
       </VStack>
-      <HStack
-        spacing={{ base: 3, md: 6 }}
-        alignItems={{ base: 'flex-start', md: 'center' }}
-        w="full"
-      >
-        {/* <AspectRatio ratio={1} w={24}>
-              <Image src="/images/skateboard.jpg" alt="Skateboard" />
-            </AspectRatio> */}
-        <Stack
-          spacing={0}
-          w="full"
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <VStack w="full" spacing={0} alignItems="flex-start">
-            <Heading size="md">Penny board</Heading>
-            <Text color={secondaryTextColor}>PNYCOMP27541</Text>
-          </VStack>
-          <Heading size="sm" textAlign="end">
-            $119.00
-          </Heading>
-        </Stack>
-      </HStack>
-      <VStack spacing={4} alignItems="stretch" w="full">
-        <HStack justifyContent="space-between">
-          <Text color={secondaryTextColor}>Subtotal</Text>
-          <Heading size="sm">$119.00</Heading>
-        </HStack>
-        <HStack justifyContent="space-between">
-          <Text color={secondaryTextColor}>Shipping</Text>
-          <Heading size="sm">$19.99</Heading>
-        </HStack>
-        <HStack justifyContent="space-between">
-          <Text color={secondaryTextColor}>Taxes (estimated)</Text>
-          <Heading size="sm">$23.80</Heading>
-        </HStack>
-      </VStack>
-      <Divider />
-      <HStack justifyContent="space-between" w="full">
-        <Text color={secondaryTextColor}>Total</Text>
-        <Heading size="lg">$162.79</Heading>
-      </HStack>
     </VStack>
   );
 };

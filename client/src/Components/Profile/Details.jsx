@@ -27,7 +27,7 @@ export const Details = () => {
   const userLogin = useSelector(state => state.userLogin);
   const userDetails = useSelector(state => state.userDetails);
   const { success } = useSelector(state => state.userUpdateProfile);
-  const { user, error: detailsError } = userDetails;
+  const { user, loading: detailsLoading, error: detailsError } = userDetails;
   const { error, userInfo, loading } = userLogin;
   const toast = useToast();
   const {
